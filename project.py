@@ -1,21 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
+#import bc-project 
 
-import sqlite3
-
-# ایجاد یا اتصال به یک پایگاه داده
-conn = sqlite3.connect('database_name.db')
-cursor = conn.cursor()
-
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL
-)
-''')
-conn.commit()
 
 
 # وضعیت حالت دارک مود
@@ -49,49 +36,57 @@ def open_signup_window():
     # ایجاد پنجره جدید
     signup_window = Toplevel(Pan)
     signup_window.title('Sign Up')
-    signup_window.geometry('300x300')  # اندازه پنجره جدید
+    signup_window.geometry('300x400')  # اندازه پنجره جدید
 
-    # افزودن محتوای پنجره جدید
-    label_sinup = Label(signup_window, text='Sign Up Form', font=('tahoma', 16, 'bold'))
-    label_sinup.grid(row=0, column=0, columnspan=2, pady=10)  # قرار دادن عنوان در ردیف 0 و کشیدن به دو ستون
-    label_sinup.config(foreground='blue')
+    # عنوان پنجره
+    label_signup = Label(signup_window, text='Sign Up Form', font=('tahoma', 16, 'bold'), fg='blue')
+    label_signup.grid(row=0, column=0, columnspan=2, pady=10)
 
-    # برای نام 
+    # نام
     name_label = Label(signup_window, text='Name:')
-    name_label.grid(row=1, column=0, pady=5, sticky='e')  # قرار دادن در سمت راست
+    name_label.grid(row=1, column=0, pady=5, sticky='e')
     name_entry = Entry(signup_window)
-    name_entry.grid(row=1, column=1, pady=5)  # قرار دادن در سمت چپ
+    name_entry.grid(row=1, column=1, pady=5)
 
-    # برای فامیلی 
+    # فامیلی
     last_label = Label(signup_window, text='Last Name:')
-    last_label.grid(row=2, column=0, pady=5, sticky='e')  # قرار دادن در سمت راست
+    last_label.grid(row=2, column=0, pady=5, sticky='e')
     last_entry = Entry(signup_window)
-    last_entry.grid(row=2, column=1, pady=5)  # قرار دادن در سمت چپ
+    last_entry.grid(row=2, column=1, pady=5)
 
-    # برای کد ملی 
+    # کد ملی
     kod_label = Label(signup_window, text='National Code:')
-    kod_label.grid(row=3, column=0, pady=5, sticky='e')  # قرار دادن در سمت راست
+    kod_label.grid(row=3, column=0, pady=5, sticky='e')
     kod_entry = Entry(signup_window)
-    kod_entry.grid(row=3, column=1, pady=5)  # قرار دادن در سمت چپ
+    kod_entry.grid(row=3, column=1, pady=5)
 
-    # ردیف برای Username
+    # یوزرنیم
     username_label = Label(signup_window, text='Username:')
-    username_label.grid(row=4, column=0, pady=5, sticky='e')  # قرار دادن در سمت راست
-    username_entry = Entry(signup_window)
-    username_entry.grid(row=4, column=1, pady=5)  # قرار دادن در سمت چپ
-    
+    username_label.grid(row=4, column=0, pady=5, sticky='e')
     username_entry = Entry(signup_window)
     username_entry.grid(row=4, column=1, pady=5)
 
-    # انتقال فوکوس به فیلد پسورد در صورت زدن Enter در فیلد یوزرنیم
-    username_entry.bind("<Return>", lambda event: password_entry.focus())
-
-
-    # ردیف برای Password
+    # پسورد
     password_label = Label(signup_window, text='Password:')
-    password_label.grid(row=5, column=0, pady=5, sticky='e')  # قرار دادن در سمت راست
+    password_label.grid(row=5, column=0, pady=5, sticky='e')
     password_entry = Entry(signup_window, show='*')
-    password_entry.grid(row=5, column=1, pady=5)  # قرار دادن در سمت چپ
+    password_entry.grid(row=5, column=1, pady=5)
+
+    # نمایش سایز دوچرخه
+    Bicycle_size = [12, 16, 20, 24, 26, 27.5, 29]
+    bicycle_size_label = Label(signup_window, text='Bicycle Size:')
+    bicycle_size_label.grid(row=6, column=0, pady=5, sticky='e')
+    bicycle_combobox = ttk.Combobox(signup_window, state="readonly", values=Bicycle_size)
+    bicycle_combobox.grid(row=6, column=1, pady=5)
+
+    # دکمه ارسال
+    submit_button = ttk.Button(signup_window, text='Submit', command=signup_window.destroy)
+    submit_button.grid(row=7, column=0, columnspan=2, pady=20)
+
+    # دکمه بازگشت
+    back_button = ttk.Button(signup_window, text='Back', command=signup_window.destroy)
+    back_button.grid(row=8, column=0, columnspan=2, pady=5)
+
 
     def reveal_password():
         # به صورت عادی نمایش بده
@@ -103,12 +98,11 @@ def open_signup_window():
         # بعد از 2 ثانیه به ستاره تغییر می‌کند
         password_entry.after(500, lambda: password_entry.config(show='*'))
     
+
+
     # با هر بار تغییر در ورودی پسورد، تابع reveal_password فراخوانی می‌شود
     password_entry.bind("<KeyRelease>", lambda event: reveal_password())
 
-    # دکمه ارسال
-    Submit_button = ttk.Button(signup_window, text='Submit', command=signup_window.destroy)
-    Submit_button.grid(row=8, columnspan=2, pady=20)
 
 
 def log_in():
@@ -116,7 +110,7 @@ def log_in():
     global login_window
     login_window = Toplevel(Pan)
     login_window.title('Log In')
-    login_window.geometry('400x200')
+    login_window.geometry('400x300')
 
     # اضافه کردن تصویر به پنجره لاگین
     a = Image.open("aa.jpg").resize((50, 50))
@@ -144,18 +138,60 @@ def log_in():
 
     # دکمه Submit
     vrod = ttk.Button(login_window, text='Submit', command=in_to)
-    vrod.grid(row=2, column=0, pady=5)
+    vrod.grid(row=2, column=0, pady=0)
 
-
-
+    Back = ttk.Button(login_window, text='Back', command=login_window.destroy)
+    Back.grid(row=3, column=0, pady=30)
+price = 1
+time = 10
 def in_to():
     login_in_window = Toplevel(login_window)
     login_in_window.title('Logged in')
-    login_in_window.geometry('400x400')
-    label = Label(login_in_window, text="Welcome!", font=("Arial", 18))
+    login_in_window.geometry('750x400')
+
+    charg = ttk.Button(login_in_window, text='Recharge account', command=charging)
+    charg.grid(row=7, column=4, pady=10)
+    
+    startt = ttk.Button(login_in_window,text="Start of rent")
+    startt.grid(row=7, column=6, pady=10)
+
+    finish = ttk.Button(login_in_window, text="finish of rent")
+    finish.grid(row=7, column=10, pady=15)
+
+
+    label = Label(login_in_window, text="Welcome!", font=("Arial", 20))
     label.grid(row=0, column=1, pady=20)
-    Wallet_credit_label = Label(login_in_window, text="Wallet credit", font=("Arial", 15))
+
+    Wallet_credit_label = Label(login_in_window, text=f"Wallet credit {price} :" , font=("Arial", 16))
     Wallet_credit_label.grid(row=2, column=5, pady=5)
+
+    time_label = Label(login_in_window, text = f"time {time} :", font=("Arial", 16))
+    time_label.grid(row=5, column=5, pady=5)
+
+
+    Back = ttk.Button(login_in_window, text='Back', command=login_in_window.destroy)
+    Back.grid(row=8, column=5, pady=5)
+
+def charging():
+    charging_ta =  Toplevel()
+    charging_ta.title('Recharge account')
+    charging_ta.geometry('500x500')
+
+
+    Back = ttk.Button(charging_ta, text='Back', command=charging_ta.destroy)
+    Back.grid(row=7, column=3, pady=15)
+
+    labelcharg = Label(charging_ta, text='Enter the amount you want to recharge $:', font=("Arial", 12))
+    labelcharg.grid(row=3, column=2, pady=5)  
+    
+
+    charging = Entry(charging_ta)
+    charging.grid(row=3, column=3, pady=5)  # قرار دادن در سمت چپ
+
+
+    ok_charging = ttk.Button(charging_ta, text='OK', command=charging_ta.destroy)
+    ok_charging.grid(row=5, column=3, pady=15)
+
 
 
 
